@@ -13,9 +13,9 @@
     .letter {
       position: absolute; 
       font-size: 32px;
-      font-weight: normal; /* removed boldness */
+      font-weight: normal; /* no bold */
       color: black; 
-      letter-spacing: 4px; /* adds spacing between letters */
+      letter-spacing: 6px; /* extra spacing between letters */
     }
   </style>
 </head>
@@ -36,24 +36,29 @@ foreach ($letters as $ch) {
   let y = window.innerHeight;
 
   function animate() {
-    y -= 2;
-    if (y < -50) {
-      y = window.innerHeight; 
+    y -= 2; // drift upward
+    if (y < -200) {
+      y = window.innerHeight; // reset to bottom
     }
 
     letters.forEach((letter, index) => {
-      // Spiral effect: use both sine and cosine for circular motion
-      const offsetAngle = angle + index * 0.5; 
-      const radius = 100 + index * 5; // radius grows with index for spiral
-      const xOffset = Math.cos(offsetAngle) * radius;
-      const yOffset = Math.sin(offsetAngle) * radius;
+      // Spiral math: angle + index offset
+      const offsetAngle = angle + index * 0.5;
+      const radius = 100; // distance from "pole"
 
-      // Position letters in a spiral while drifting upward
-      letter.style.top = (y + yOffset - index * 10) + "px"; 
+      // Spiral coordinates around center
+      const xOffset = Math.cos(offsetAngle) * radius;
+      const zOffset = Math.sin(offsetAngle) * radius; // gives circular rotation
+
+      // Position letters in spiral climbing upward
+      letter.style.top = (y - index * 20) + "px"; 
       letter.style.left = (window.innerWidth / 2 + xOffset) + "px";
+
+      // Optional: use zOffset to stagger depth (simulate 3D pole)
+      letter.style.opacity = 0.5 + 0.5 * Math.cos(offsetAngle); 
     });
 
-    angle += 0.05;
+    angle += 0.05; // rotate spiral
     requestAnimationFrame(animate);
   }
 
