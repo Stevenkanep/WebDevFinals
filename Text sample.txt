@@ -1,59 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Twister Letters</title>
+  <title>4.0 Tasker</title>
   <style>
-    /* HTML + CSS (from your PDF "Other requirements") */
     body {
-      background-color: white; /* White background */
+      background-color: white; 
       margin: 0;
-      overflow: hidden; /* Prevent scrollbars */
+      overflow: hidden; 
     }
     .letter {
-      position: absolute; /* Allows free movement */
+      position: absolute; 
       font-size: 32px;
       font-weight: bold;
-      color: black; /* Black text */
+      color: black; 
     }
   </style>
 </head>
 <body>
-  <!-- Instead of one block of text, we split your name into letters -->
+  <span class="letter">S</span>
+  <span class="letter">T</span>
+  <span class="letter">E</span>
+  <span class="letter">V</span>
+  <span class="letter">E</span>
+  <span class="letter">N</span>
   <span class="letter">K</span>
-  <span class="letter">a</span>
-  <span class="letter">n</span>
-  <span class="letter">e</span>
+  <span class="letter">A</span>
+  <span class="letter">N</span>
+  <span class="letter">E</span>
+  <span class="letter">P</span>
+  <span class="letter">A</span>
+  <span class="letter">B</span>
+  <span class="letter">E</span>
+  <span class="letter">L</span>
+  <span class="letter">O</span>
+  <span class="letter">N</span>
+  <span class="letter">A</span>
+  
 
   <script>
-    /* JavaScript (also listed in your PDF) runs in the browser, 
-       similar to how PHP runs on the server. */
 
     const letters = document.querySelectorAll(".letter");
     let angle = 0;
     let y = window.innerHeight;
 
     function animate() {
-      // Move upwards
       y -= 2;
       if (y < -50) {
-        y = window.innerHeight; // Reset to bottom
+        y = window.innerHeight; 
       }
 
-      // Each letter gets its own offset, so they swirl independently
       letters.forEach((letter, index) => {
-        const offsetAngle = angle + index * 0.5; // stagger each letter
+        const offsetAngle = angle + index * 0.5; 
         const xOffset = Math.sin(offsetAngle) * 100;
 
         letter.style.top = y + "px";
         letter.style.left = (window.innerWidth / 2 + xOffset + index * 20) + "px";
       });
 
-      // Looping animation (like PHP loops in your PDF examples)
       angle += 0.05;
       requestAnimationFrame(animate);
     }
 
-    animate(); // Start animation
+    animate(); 
   </script>
 </body>
 </html>
