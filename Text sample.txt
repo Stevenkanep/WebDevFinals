@@ -1,56 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Floating Twister Name</title>
+  <title>Twister Letters</title>
   <style>
-    /* In your PDF, HTML and CSS are listed as "Other software requirements".
-       Here we use CSS to style the page: white background, black text. */
+    /* HTML + CSS (from your PDF "Other requirements") */
     body {
-      background-color: white;
+      background-color: white; /* White background */
       margin: 0;
-      overflow: hidden; /* Prevent scrollbars when text moves */
+      overflow: hidden; /* Prevent scrollbars */
     }
-    .name {
-      position: absolute; /* Lets us move the text freely */
+    .letter {
+      position: absolute; /* Allows free movement */
       font-size: 32px;
       font-weight: bold;
-      color: black;
+      color: black; /* Black text */
     }
   </style>
 </head>
 <body>
-  <!-- Just like PHP "echo" outputs text to the browser (see PDF examples),
-       here we place a <div> that JavaScript will animate. -->
-  <div id="myName" class="name">Kane</div>
+  <!-- Instead of one block of text, we split your name into letters -->
+  <span class="letter">K</span>
+  <span class="letter">a</span>
+  <span class="letter">n</span>
+  <span class="letter">e</span>
 
   <script>
-    /* JavaScript is also listed in your PDF as a required tool.
-       Instead of server-side PHP, this runs directly in the browser. */
+    /* JavaScript (also listed in your PDF) runs in the browser, 
+       similar to how PHP runs on the server. */
 
-    const name = document.getElementById("myName"); // Selects the text element
-    let angle = 0; // Controls the "twister" side-to-side motion
-    let y = window.innerHeight; // Start at the bottom of the screen
+    const letters = document.querySelectorAll(".letter");
+    let angle = 0;
+    let y = window.innerHeight;
 
     function animate() {
-      // Move upwards (like looping output in PHP examples)
+      // Move upwards
       y -= 2;
       if (y < -50) {
-        y = window.innerHeight; // Reset to bottom when it goes off top
+        y = window.innerHeight; // Reset to bottom
       }
 
-      // Twister effect: sine wave makes the text swing left and right
+      // Each letter gets its own offset, so they swirl independently
+      letters.forEach((letter, index) => {
+        const offsetAngle = angle + index * 0.5; // stagger each letter
+        const xOffset = Math.sin(offsetAngle) * 100;
+
+        letter.style.top = y + "px";
+        letter.style.left = (window.innerWidth / 2 + xOffset + index * 20) + "px";
+      });
+
+      // Looping animation (like PHP loops in your PDF examples)
       angle += 0.05;
-      const xOffset = Math.sin(angle) * 100;
-
-      // Update position on screen
-      name.style.top = y + "px";
-      name.style.left = (window.innerWidth / 2 + xOffset) + "px";
-
-      // requestAnimationFrame is like a loop — keeps running smoothly
       requestAnimationFrame(animate);
     }
 
-    animate(); // Start the animation
+    animate(); // Start animation
   </script>
 </body>
 </html>
