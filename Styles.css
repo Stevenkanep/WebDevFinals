@@ -1,0 +1,53 @@
+/* Clean, sleek design */
+body {
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    color: #333;
+    text-align: center;
+    padding: 40px;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.form-container {
+    background: #fff;
+    padding: 20px;
+    margin: 0 auto;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    text-align: left;
+}
+
+input[type="number"],
+input[type="checkbox"] {
+    margin-bottom: 15px;
+}
+
+.btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn:hover {
+    background: #2980b9;
+}
+
+.result {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #27ae60;
+}
