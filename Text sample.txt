@@ -13,8 +13,9 @@
     .letter {
       position: absolute; 
       font-size: 32px;
-      font-weight: bold;
+      font-weight: normal; /* removed boldness */
       color: black; 
+      letter-spacing: 4px; /* adds spacing between letters */
     }
   </style>
 </head>
@@ -41,10 +42,14 @@ foreach ($letters as $ch) {
     }
 
     letters.forEach((letter, index) => {
-      const offsetAngle = angle + index * 0.3; 
-      const xOffset = Math.sin(offsetAngle) * 120;
+      // Spiral effect: use both sine and cosine for circular motion
+      const offsetAngle = angle + index * 0.5; 
+      const radius = 100 + index * 5; // radius grows with index for spiral
+      const xOffset = Math.cos(offsetAngle) * radius;
+      const yOffset = Math.sin(offsetAngle) * radius;
 
-      letter.style.top = (y - index * 15) + "px"; 
+      // Position letters in a spiral while drifting upward
+      letter.style.top = (y + yOffset - index * 10) + "px"; 
       letter.style.left = (window.innerWidth / 2 + xOffset) + "px";
     });
 
