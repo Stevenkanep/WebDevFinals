@@ -1,66 +1,50 @@
-<?php
-// twister.php
-// In your PDF, PHP "echo" is used to output HTML to the browser.
-// Here we use PHP to send the HTML + JavaScript code that animates each letter.
-?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>4.0 Tasker</title>
-  <style>
-    /* CSS styling (from your module: HTML + CSS as "Other requirements") */
-    body {
-      background-color: white; 
-      margin: 0;
-      overflow: hidden; 
-    }
-    .letter {
-      position: absolute; 
-      font-size: 32px;
-      font-weight: bold;
-      color: black; 
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Event Registration Fee claculator</title>
 </head>
 <body>
-<?php
-// Instead of writing <span> directly, we can echo them with PHP.
-// This shows how PHP outputs HTML, just like the "echo 'Welcome to PHP';" example in your PDF.
-$name = "STEVENKANE PABELONA"; 
-$letters = str_split($name);
-foreach ($letters as $ch) {
-    if ($ch !== " ") { // skip spaces
-        echo "<span class='letter'>$ch</span>";
-    }
-}
-?>
+    <h1>Event Registration Fee Calculator</h1>
 
-<script>
-  // JavaScript handles the animation (like client-side scripting in your PDF).
-  const letters = document.querySelectorAll(".letter");
-  let angle = 0;
-  let y = window.innerHeight;
+    <?php
+    // Check if the form is submitted
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        //Assigns variables from POST data
+        $age = isset($_POST['age']) ? intval($_POST['age']) : 0;
+        $is_student = isset($_POST['is_student']) ? true : false;
 
-  function animate() {
-    y -= 2;
-    if (y < -50) {
-      y = window.innerHeight; 
+        //determine the base fee based on age
+        if ($age < 18) {
+           $base_price = 100; // for adults
+    } elseif ($age >= 13) {
+        $base_price = 50; // teenagers
+    } else {
+        $base_price = 0; // for children under 13
     }
 
-    // Each letter gets its own staggered offset, creating a trailing twister effect
-    letters.forEach((letter, index) => {
-      const offsetAngle = angle + index * 0.3; // smaller step for smoother trail
-      const xOffset = Math.sin(offsetAngle) * 120;
+    //Apply student discount if applicable
+    if ($is_student) {
+        if ($is_student) {
+        $discount = $base_price * 0.20; // Apply 20% discount
+        $final_price = $base_price - $discount;
+    } else {
+        $final_price = $base_price; // No discount for non-students
+    }
 
-      letter.style.top = (y - index * 15) + "px"; // stagger vertically
-      letter.style.left = (window.innerWidth / 2 + xOffset) + "px";
-    });
+    //Output the final price
+    echo "<p>The registration fee for the attendee is: $" . number_format($final_price, 2) . "</strong></p>";
+    }
+    ?>
 
-    angle += 0.05;
-    requestAnimationFrame(animate);
-  }
+    <form action=""  method="post">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
 
-  animate();
-</script>
-</body>
+        <label for="is_student">Are you a student?</label>
+        <input type="checkbox" id="is_student" name="is_student">
+
+        <input type="submit" value="Calculate Fee">
+    </form>
+</body>     
 </html>
