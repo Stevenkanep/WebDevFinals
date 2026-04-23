@@ -1,8 +1,14 @@
+<?php
+// twister.php
+// In your PDF, PHP "echo" is used to output HTML to the browser.
+// Here we use PHP to send the HTML + JavaScript code that animates each letter.
+?>
 <!DOCTYPE html>
 <html>
 <head>
   <title>4.0 Tasker</title>
   <style>
+    /* CSS styling (from your module: HTML + CSS as "Other requirements") */
     body {
       background-color: white; 
       margin: 0;
@@ -17,51 +23,44 @@
   </style>
 </head>
 <body>
-  <span class="letter">S</span>
-  <span class="letter">T</span>
-  <span class="letter">E</span>
-  <span class="letter">V</span>
-  <span class="letter">E</span>
-  <span class="letter">N</span>
-  <span class="letter">K</span>
-  <span class="letter">A</span>
-  <span class="letter">N</span>
-  <span class="letter">E</span>
-  <span class="letter">P</span>
-  <span class="letter">A</span>
-  <span class="letter">B</span>
-  <span class="letter">E</span>
-  <span class="letter">L</span>
-  <span class="letter">O</span>
-  <span class="letter">N</span>
-  <span class="letter">A</span>
-  
+<?php
+// Instead of writing <span> directly, we can echo them with PHP.
+// This shows how PHP outputs HTML, just like the "echo 'Welcome to PHP';" example in your PDF.
+$name = "STEVENKANE PABELONA"; 
+$letters = str_split($name);
+foreach ($letters as $ch) {
+    if ($ch !== " ") { // skip spaces
+        echo "<span class='letter'>$ch</span>";
+    }
+}
+?>
 
-  <script>
+<script>
+  // JavaScript handles the animation (like client-side scripting in your PDF).
+  const letters = document.querySelectorAll(".letter");
+  let angle = 0;
+  let y = window.innerHeight;
 
-    const letters = document.querySelectorAll(".letter");
-    let angle = 0;
-    let y = window.innerHeight;
-
-    function animate() {
-      y -= 2;
-      if (y < -50) {
-        y = window.innerHeight; 
-      }
-
-      letters.forEach((letter, index) => {
-        const offsetAngle = angle + index * 0.5; 
-        const xOffset = Math.sin(offsetAngle) * 100;
-
-        letter.style.top = y + "px";
-        letter.style.left = (window.innerWidth / 2 + xOffset + index * 20) + "px";
-      });
-
-      angle += 0.05;
-      requestAnimationFrame(animate);
+  function animate() {
+    y -= 2;
+    if (y < -50) {
+      y = window.innerHeight; 
     }
 
-    animate(); 
-  </script>
+    // Each letter gets its own staggered offset, creating a trailing twister effect
+    letters.forEach((letter, index) => {
+      const offsetAngle = angle + index * 0.3; // smaller step for smoother trail
+      const xOffset = Math.sin(offsetAngle) * 120;
+
+      letter.style.top = (y - index * 15) + "px"; // stagger vertically
+      letter.style.left = (window.innerWidth / 2 + xOffset) + "px";
+    });
+
+    angle += 0.05;
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
 </body>
 </html>
