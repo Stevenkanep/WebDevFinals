@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Floating Twister Name</title>
+  <style>
+    /* In your PDF, HTML and CSS are listed as "Other software requirements".
+       Here we use CSS to style the page: white background, black text. */
+    body {
+      background-color: white;
+      margin: 0;
+      overflow: hidden; /* Prevent scrollbars when text moves */
+    }
+    .name {
+      position: absolute; /* Lets us move the text freely */
+      font-size: 32px;
+      font-weight: bold;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <!-- Just like PHP "echo" outputs text to the browser (see PDF examples),
+       here we place a <div> that JavaScript will animate. -->
+  <div id="myName" class="name">Kane</div>
+
+  <script>
+    /* JavaScript is also listed in your PDF as a required tool.
+       Instead of server-side PHP, this runs directly in the browser. */
+
+    const name = document.getElementById("myName"); // Selects the text element
+    let angle = 0; // Controls the "twister" side-to-side motion
+    let y = window.innerHeight; // Start at the bottom of the screen
+
+    function animate() {
+      // Move upwards (like looping output in PHP examples)
+      y -= 2;
+      if (y < -50) {
+        y = window.innerHeight; // Reset to bottom when it goes off top
+      }
+
+      // Twister effect: sine wave makes the text swing left and right
+      angle += 0.05;
+      const xOffset = Math.sin(angle) * 100;
+
+      // Update position on screen
+      name.style.top = y + "px";
+      name.style.left = (window.innerWidth / 2 + xOffset) + "px";
+
+      // requestAnimationFrame is like a loop — keeps running smoothly
+      requestAnimationFrame(animate);
+    }
+
+    animate(); // Start the animation
+  </script>
+</body>
+</html>
